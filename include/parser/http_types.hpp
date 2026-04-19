@@ -1,19 +1,18 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 #include <vector>
 
 namespace parser {
-
     struct Header {
-      std::string key;
-      std::string value;  
+        std::string_view key;
+        std::string_view value;  
     };
 
     struct HttpRequest {
-        std::string method;
-        std::string uri;
-        std::string version;
+        std::string_view method;
+        std::string_view uri;
+        std::string_view version;
         std::vector<Header> headers;
     };
 
