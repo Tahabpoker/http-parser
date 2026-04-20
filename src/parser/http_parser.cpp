@@ -48,9 +48,9 @@ namespace parser {
             return false;
         }
 
-        request.method = std::string(line.substr(0, first_space));
-        request.uri = std::string(line.substr(first_space + 1, second_space - first_space - 1));
-        request.version = std::string(line.substr(second_space + 1));
+        request.method = line.substr(0, first_space);
+        request.uri = line.substr(first_space + 1, second_space - first_space - 1);
+        request.version = line.substr(second_space + 1);
 
         if(request.method.empty() || request.uri.empty() || request.version.empty()) {
             return false;
@@ -65,16 +65,15 @@ namespace parser {
             return false;
         }
 
-        std::string key(line.substr(0, colon));
-
+        std::string_view key = line.substr(0, colon);
+        
         std::size_t value_start = colon + 1;
         while(value_start < line.size() && line[value_start] == ' ') {
             ++value_start;
         }
-
-        std::string value(line.substr(value_start));
-
-        request.headers.push_back(Header{std::move(key), std::move(value)});
+        std::string_view value = line.substr(value_start);
+        
+        request.headers.push_back(Header{key, value});
         return true;
     }
 
